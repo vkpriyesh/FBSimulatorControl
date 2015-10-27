@@ -24,7 +24,7 @@
   }
   return [[[self interact]
     startWithAppLaunch:appLaunch agentLaunch:agentLaunch]
-    performInteractionWithError:error];
+    perform:error];
 }
 
 - (BOOL)relaunchAppWithError:(NSError **)error
@@ -40,7 +40,7 @@
 
   return [[[self interact]
     launchApplication:launchConfig]
-    performInteractionWithError:error];
+    perform:error];
 }
 
 - (BOOL)terminateAppWithError:(NSError **)error
@@ -56,7 +56,7 @@
 
   return [[[self interact]
     killApplication:launchConfig.application]
-    performInteractionWithError:error];
+    perform:error];
 }
 
 @end

@@ -66,7 +66,7 @@
 
   {
     NSError *innerError = nil;
-    if (![[session.interact launchApplication:appLaunch] performInteractionWithError:&innerError]) {
+    if (![[session.interact launchApplication:appLaunch] perform:&innerError]) {
       return [[[FBSimulatorError describe:@"Couldn't launch MobileSlideShow to upload videos"]
         causedBy:innerError]
         failBool:error];
@@ -80,7 +80,7 @@
 
   {
     NSError *innerError = nil;
-    if (![[self.session.interact killApplication:photosApp] performInteractionWithError:nil]) {
+    if (![[self.session.interact killApplication:photosApp] perform:nil]) {
       return [[[FBSimulatorError describe:@"Couldn't kill MobileSlideShow after uploading videos"]
         causedBy:innerError]
         failBool:error];

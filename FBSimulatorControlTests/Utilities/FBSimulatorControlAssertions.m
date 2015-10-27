@@ -98,7 +98,7 @@
 - (void)interactionSuccessful:(id<FBInteraction>)interaction
 {
   NSError *error = nil;
-  BOOL success = [interaction performInteractionWithError:&error];
+  BOOL success = [interaction perform:&error];
 
   _XCTPrimitiveAssertNil(self.testCase, error, "error");
   _XCTPrimitiveAssertTrue(self.testCase, success, "interactionSuccessful:");
@@ -107,7 +107,7 @@
 - (void)interactionFailed:(id<FBInteraction>)interaction
 {
   NSError *error = nil;
-  BOOL success = [interaction performInteractionWithError:&error];
+  BOOL success = [interaction perform:&error];
 
   _XCTPrimitiveAssertFalse(self.testCase, success, "interactionFailed:");
 }

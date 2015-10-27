@@ -30,7 +30,7 @@
   return [FBInteraction_Block interactionWithBlock:^ BOOL (NSError **error) {
     for (id<FBInteraction> interaction in interactions) {
       NSError *innerError = nil;
-      if (![interaction performInteractionWithError:&innerError]) {
+      if (![interaction perform:&innerError]) {
         return [FBSimulatorError failBoolWithError:innerError errorOut:error];
       }
     }
@@ -80,7 +80,7 @@
     return [FBInteraction_Block interactionWithBlock:^ BOOL (NSError **error) {
       NSError *innerError = nil;
       for (NSUInteger index = 0; index < retries; index++) {
-        if ([interaction performInteractionWithError:&innerError]) {
+        if ([interaction perform:&innerError]) {
           return YES;
         }
       }
@@ -94,7 +94,7 @@
   return [self replaceLastInteraction:^ id<FBInteraction> (id<FBInteraction> interaction) {
     return [FBInteraction_Block interactionWithBlock:^ BOOL (NSError **error) {
       NSError *innerError = nil;
-      [interaction performInteractionWithError:&innerError];
+      [interaction perform:&innerError];
       return YES;
     }];
   }];
@@ -105,9 +105,9 @@
   return [FBInteraction chainInteractions:[self.interactions copy]];
 }
 
-- (BOOL)performInteractionWithError:(NSError **)error
+- (BOOL)perform:(NSError **)error
 {
-  return [[self build] performInteractionWithError:error];
+  return [[self build] perform:error];
 }
 
 #pragma mark Private
@@ -135,7 +135,7 @@
   return interaction;
 }
 
-- (BOOL)performInteractionWithError:(NSError **)error
+- (BOOL)perform:(NSError **)error
 {
   NSError *innerError = nil;
   BOOL success = self.block(&innerError);

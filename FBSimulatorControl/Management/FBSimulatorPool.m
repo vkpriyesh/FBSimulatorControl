@@ -367,7 +367,7 @@ static NSTimeInterval const FBSimulatorPoolDefaultWait = 30.0;
   }
 
   // Do the other, non-session based setup steps.
-  if (![[simulator.interact configureWith:configuration] performInteractionWithError:&innerError]) {
+  if (![[simulator.interact configureWith:configuration] perform:&innerError]) {
     return [FBSimulatorError failBoolWithError:innerError errorOut:error];
   }
 

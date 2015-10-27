@@ -23,7 +23,7 @@
 /**
  The Concrete Interactions for a Simulator Session.
  Successive applications of interactions will occur in the order that they are sequenced.
- Interactions have no effect until `performInteractionWithError:` is called.
+ Interactions have no effect until `perform:` is called.
  */
 @interface FBSimulatorSessionInteraction : FBInteraction
 
