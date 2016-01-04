@@ -247,6 +247,15 @@ extension Interaction : Parsable {
         return Interaction.Install(application)
       }
   }
+
+  private static func launchParser() -> Parser<Interaction> {
+    return Parser
+      .succeeded("launch", Parser<String>.ofDirectory())
+      .fmap { appPath in
+        let application = try FBSimulatorApplication(path: appPath)
+        return Interaction.Install(application)
+      }
+  }
 }
 
 extension Action : Parsable {
