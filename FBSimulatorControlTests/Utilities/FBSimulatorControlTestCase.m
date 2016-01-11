@@ -17,6 +17,10 @@ static NSString *const DeviceSetEnvKey = @"FBSIMULATORCONTROL_DEVICE_SET";
 static NSString *const DeviceSetEnvDefault = @"default";
 static NSString *const DeviceSetEnvCustom = @"custom";
 
+static NSString *const LaunchTypeEnvKey = @"FBSIMULATORCONTROL_LAUNCH_TYPE";
+static NSString *const LaunchTypeSimulatorApp = @"simulator_app";
+static NSString *const LaunchTypeDirect = @"direct";
+
 @interface FBSimulatorControlTestCase ()
 
 @end
@@ -98,6 +102,14 @@ static NSString *const DeviceSetEnvCustom = @"custom";
   return NO;
 }
 
++ (BOOL)useDirectLaunching
+{
+  if ([NSProcessInfo.processInfo.environment[LaunchTypeEnvKey] isEqualToString:LaunchTypeSimulatorApp]) {
+    return NO;
+  }
+  return YES;
+}
+
 + (NSString *)defaultDeviceSetPath
 {
   NSString *value = NSProcessInfo.processInfo.environment[DeviceSetEnvKey];
@@ -107,6 +119,14 @@ static NSString *const DeviceSetEnvCustom = @"custom";
   return nil;
 }
 
++ (FBSimulatorLaunchConfiguration *)defaultLaunchConfiguration
+{
+  if (self.useDirectLaunching) {
+    return [FBSimulatorLaunchConfiguration withDirectLaunchOptions:FBSimulatorDirectLaunchLaunchEnable];
+  }
+  return FBSimulatorLaunchConfiguration.defaultConfiguration;
+}
+
 #pragma mark XCTestCase
 
 - (void)setUp
@@ -114,7 +134,7 @@ static NSString *const DeviceSetEnvCustom = @"custom";
   self.managementOptions = FBSimulatorManagementOptionsKillSpuriousSimulatorsOnFirstStart | FBSimulatorManagementOptionsIgnoreSpuriousKillFail;
   self.allocationOptions = FBSimulatorAllocationOptionsReuse | FBSimulatorAllocationOptionsCreate | FBSimulatorAllocationOptionsEraseOnAllocate;
   self.simulatorConfiguration = FBSimulatorConfiguration.iPhone5;
-  self.simulatorLaunchConfiguration = FBSimulatorLaunchConfiguration.defaultConfiguration;
+  self.simulatorLaunchConfiguration = FBSimulatorControlTestCase.defaultLaunchConfiguration;
   self.deviceSetPath = FBSimulatorControlTestCase.defaultDeviceSetPath;
 }
 
@@ -124,4 +144,5 @@ static NSString *const DeviceSetEnvCustom = @"custom";
   _control = nil;
   _assert = nil;
 }
+
 @end
